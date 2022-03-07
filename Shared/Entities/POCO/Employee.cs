@@ -10,17 +10,33 @@ namespace AFA.Shared.Entities.POCO
         public string? LastName { get; set; }
         public byte Age { get; set; }
         public DateTime BirthDate { get; set; }
-        public string Rfc { get; set; }
+        public string? Rfc { get; set; }
 
-        public string Address { get; set; }
+        public string? Address { get; set; }
 
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
         public DateTime DischargeDate { get; set; }
-        public DateTime LeavingDate { get; set; }
+        public DateTime? LeavingDate { get; set; }
 
+        #region Gender
         public byte GenderId { get; set; }
+
+        public Gender? Gender { get; set; }
+
+        #endregion
+
+
+        #region CivilStatus
         public byte CivilStatusId { get; set; }
+        public CivilStatus? CivilStatus { get; set; }
+
+        #endregion
+
+        #region Postition
         public byte PositionId { get; set; }
+        public Position? Position { get; set; }
+        #endregion
+
     }
 }

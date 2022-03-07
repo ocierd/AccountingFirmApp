@@ -1,20 +1,15 @@
+using AFA.Data.DataAccess.Context;
+using AFA.Data.DataAccess.Repository;
+using AFA.Data.DataAccess.Repository.Interfaces;
+using AFA.UI.WebApi.AppStart;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAccountingFirmDataContext("name=ConnectionStrings:AccountingFirmDb");
+
 // Add services to the container.
-
-builder.Services.AddControllers()
-.ConfigureApiBehaviorOptions(options =>
-{
-
-})
-.AddFormatterMappings(options =>
-{
-
-})
-.AddJsonOptions(options =>
-{
-    //options.JsonSerializerOptions
-});
+builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
