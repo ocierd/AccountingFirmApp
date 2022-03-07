@@ -20,12 +20,22 @@ namespace AFA.UI.WebApi.Controllers
             EmployeeRepository = employeeRepository;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<Employee>> GetEmployees()
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<Employee>> GetEmployeesAsync()
         {
             var es = await EmployeeRepository.GetEmployeesAsync();
             return es;
 
+        }
+
+
+        [HttpPut("[action]")]
+        public async Task<Employee> UpdateEmployeeAsync(Employee employee)
+        {
+
+            Console.WriteLine(employee);
+            await Task.Delay(0);
+            return employee;
         }
 
 

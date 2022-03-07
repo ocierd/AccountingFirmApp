@@ -11,6 +11,9 @@ namespace AFA.UI.WebApi.AppStart
         {
             services.AddDbContext<AccountingFirmContext>(options => options.UseSqlServer(connectionString));
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IGenderRepository, GenderRepository>();
+            services.AddScoped<ICivilStatusRepository, CivilStatusRepository>();
+            services.AddScoped<IPositionRepository, PositionRepository>();
         }
     }
 }
