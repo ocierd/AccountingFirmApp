@@ -17,11 +17,31 @@ var xhr = (function () {
 
 
     async function putAsync(url, data) {
-
         var putUrl = apiUrl + url;
-
         return await sendAsJsonAsync(putUrl, {
             method: 'PUT',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    }
+
+    async function postAsync(url, data) {
+        var postUrl = apiUrl + url;
+        return await sendAsJsonAsync(postUrl, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    }
+
+    async function deleteAsync(url, data = {}) {
+        var deleteUrl = apiUrl + url;
+        await sendAsJsonAsync(deleteUrl, {
+            method: 'DELETE',
             body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json'
@@ -33,15 +53,13 @@ var xhr = (function () {
 
     async function sendAsJsonAsync(url, options = {}) {
         var response = await sendAsync(url, options);
-        console.log(response.body);
         if (response.body) {
             try {
                 return await response.json();
             } catch (error) {
-                console.error(error);
+                //console.error(error);
                 return response;
             }
-
         }
         return response;
     }
@@ -55,6 +73,18 @@ var xhr = (function () {
     return {
         apiUrl,
         getAsync,
-        putAsync
+        postAsync,
+        putAsync,
+        deleteAsync
     }
 })();
+
+
+
+
+function removeChildsBeforeBuildGrid(querySelector) {
+    var nodeElement = document.querySelector(querySelector);
+    while (nodeElement.hasChildNodes()) {
+        nodeElement.removeChild(nodeElement.firstChild);
+    }
+}

@@ -2,41 +2,211 @@
   ViewData["Title"] = "Employees";
 }
 
-<div class="text-center">
-  <h1 class="display-4">Employees</h1>
-</div>
-
 <section>
+  <div class="text-center">
+    <h1 class="display-4">Employees</h1>
+  </div>
   <div class="row">
-    <div id="table" class="col-12">
+    <div id="myDropDown1" class="col-12">
+
+    </div>
+  </div>
+  <div class="row py-3">
+    <div class="col-4 text-center">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#searchEmployeeModal">
+        Search
+      </button>
+    </div>
+    <div class="col-4 text-center">
+      <button class="btn btn-sm btn-success" id="createEmployeeButton" type="button">
+        Create
+      </button>
+    </div>
+    <div class="col-4 text-center">
+      <button class="btn btn-sm btn-info" id="btnActualizar" type="button">
+        Refresh
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div id="divEmployeesGridContainer" class="col-12">
 
     </div>
 
   </div>
 </section>
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+
+@* Employee Search Modal *@
+<div class="modal fade" id="searchEmployeeModal" tabindex="-1" aria-labelledby="searchEmployeeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="searchEmployeeModalLabel">Search employee</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        ...
+        <form class="row g-3">
+          <div class="col-md-6">
+            <label for="searchInputName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="searchInputName">
+          </div>
+          <div class="col-md-6">
+            <label for="searchInputRfc" class="form-label">Rfc</label>
+            <input type="text" class="form-control" id="searchInputRfc">
+          </div>
+          <div class="col-md-6">
+            <label for="searchSelectStatus" class="form-label">Status</label>
+            <select id="searchSelectStatus" class="form-select">
+              <option value="true">Still working</option>
+              <option value="false">Not working</option>
+            </select>
+          </div>
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="searchModalButton">Search</button>
       </div>
     </div>
   </div>
 </div>
 
-<script src="~/js/api/employee/employee.api.js" asp-append-version="true"></script>
+
+@* Create Employee Modal *@
+
+<div class="modal fade" id="createEmployeeModal" tabindex="-1" aria-labelledby="createEmployeeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createEmployeeModalLabel">Create employee</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+
+
+        <div class="row">
+          <div class="col-12">
+            <label class="form-label">First name:</label>
+            <input id="inputCreateEmployeeFirstName" type="text" class="form-control">
+          </div>
+          <div class="col-12">
+            <label>Middle name:</label>
+            <input id="inputCreateEmployeeMiddleName" type="text" class="form-control">
+          </div>
+          <div class="col-12">
+            <label>Last name:</label>
+            <input id="inputCreateEmployeeLastName" type="text" class="form-control">
+          </div>
+          <div class="col-12 w-50">
+            <label>Age:</label>
+            <input id="inputCreateEmployeeAge" type="number" class="form-control">
+          </div>
+          <div class="col-12  w-50">
+            <label>Birth Date:</label>
+            <input id="inputCreateEmployeeBirthDate" type="date" class="form-control">
+          </div>
+          <div class="col-12">
+            <label>RFC:</label>
+            <input id="inputCreateEmployeeRfc" type="text" class="form-control">
+          </div>
+          <div class="col-12">
+            <label>Address:</label>
+            <input id="inputCreateEmployeeAddress" type="text" class="form-control">
+          </div>
+          <div class="col-12">
+            <label>Email:</label>
+            <input id="inputCreateEmployeeEmail" type="text" class="form-control">
+          </div>
+          <div class="col-12">
+            <label>Phone number:</label>
+            <input id="inputCreateEmployeePhoneNumber" type="tel" class="form-control">
+          </div>
+          <div class="col-12  w-50">
+            <label>Discharge Date:</label>
+            <input id="inputCreateEmployeeDischarge" type="date" class="form-control">
+          </div>
+          <div class="col-12  w-50">
+            <label>Leaving Date:</label>
+            <input id="inputCreateEmployeeLeavingDate" type="date" class="form-control">
+          </div>
+
+          <div class="col-12 w-50">
+            <label>Gender:</label>
+            <div id="genderModalDropDownContainer">
+
+            </div>
+          </div>
+
+          <div class="col-12 w-50">
+            <label>Civil status:</label>
+            <div id="civilStatusModalDropDownContainer">
+
+            </div>
+          </div>
+
+          <div class="col-12 w-50">
+            <label>Position:</label>
+            <div id="PositionModalDropDownContainer">
+
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="saveNewEmployeeButton">Search</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<script id="editableTemplate" type="text/x-kendo-template">
+    <div class="row">
+      <div class="col-12 text-center">
+            <h3>Edit Employee</h3>
+      </div>
+      <div class="col-12">
+        <label>Address:</label>
+        <input required data-bind="value:address" class="form-control">
+      </div>
+      <div class="col-12">
+        <label>Email:</label>
+        <input required data-bind="value:email" class="form-control">
+      </div>
+      <div class="col-12">
+        <label>Phone number:</label>
+        <input required data-bind="value:phoneNumber" class="form-control">
+      </div>
+
+      <div class="col-12  w-50">
+        <label>Leaving Date:</label>
+        <input data-role="datepicker" data-parse-formats="YYYY-MM-DDThh:mm:ss" data-bind="value:leavingDate" class="form-control">
+      </div>
+      <div class="col-12 w-50">
+        <label>Civil status:</label>
+        <div id="civilStatusDropDownContainer">
+
+        </div>
+      </div>
+
+    </div>
+</script>
+<script src="~/js/api/employee.api.js" asp-append-version="true"></script>
+<script src="~/js/api/gender.api.js" asp-append-version="true"></script>
+<script src="~/js/api/civilStatus.api.js" asp-append-version="true"></script>
+<script src="~/js/api/position.api.js" asp-append-version="true"></script>
 <script src="~/js/views/employee/employee.index.view.js" asp-append-version="true"></script>
+
+<script id="createTemplate" type="text/x-kendo-template">
+
+</script>

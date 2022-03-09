@@ -21,10 +21,11 @@ public class RepositoryAsync<T> : IRepositoryAsync<T> where T : class
         return list;
     }
 
-    public async Task CreateAsync(T entity)
+    public async Task<T> CreateAsync(T entity)
     {
         DbSet.Add(entity);
         await _AccountingFirmContext.SaveChangesAsync();
+        return entity;
     }
 
     public async Task<T> GetAsync(Expression<Func<T, bool>> predicate)
@@ -33,10 +34,11 @@ public class RepositoryAsync<T> : IRepositoryAsync<T> where T : class
         return first;
     }
 
-    public async Task UpdateAsync(T entity, Expression<Func<T, bool>> predicate)
+    public async Task<T> UpdateAsync(T entity)
     {
         DbSet.Update(entity);
         await _AccountingFirmContext.SaveChangesAsync();
+        return entity;
     }
 
     public async Task DeleteAsync(T entity)

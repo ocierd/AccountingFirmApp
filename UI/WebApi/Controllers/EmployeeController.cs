@@ -10,10 +10,6 @@ namespace AFA.UI.WebApi.Controllers
     public class EmployeeController : ApiControllerBase
     {
         private readonly IEmployeeRepository EmployeeRepository;
-        private static List<Employee> employees = new List<Employee>
-        {
-            new Employee{ EmployeeId=1,FirstName = "Fernando",MiddleName="Ricardo",LastName="Ricardo",BirthDate=new DateTime(1989,3,7) }
-        };
 
         public EmployeeController(IEmployeeRepository employeeRepository)
         {
@@ -22,22 +18,31 @@ namespace AFA.UI.WebApi.Controllers
 
         [HttpGet("[action]")]
         public async Task<IEnumerable<Employee>> GetEmployeesAsync()
-        {
-            var es = await EmployeeRepository.GetEmployeesAsync();
-            return es;
+            => await EmployeeRepository.GetEmployeesAsync();
 
-        }
+
+        [HttpPost("[action]")]
+        public async Task<IEnumerable<Employee>> SearchByCriteria(EmployeeSearchCiteria criteria)
+            => await EmployeeRepository.SearchEmployeesByCriteriaAsync(criteria);
+
+
+
+        [HttpPost("[action]")]
+        public async Task<Employee> CreateEmployeeAsync(Employee employee)
+            => await EmployeeRepository.CreateEmployeeAsync(employee);
+
+
 
 
         [HttpPut("[action]")]
-        public async Task<Employee> UpdateEmployeeAsync(Employee employee)
-        {
+        public async Task UpdateEmployeeAsync(Employee employee)
+            => await EmployeeRepository.UpdateEmployeesAsync(employee);
 
-            Console.WriteLine(employee);
-            await Task.Delay(0);
-            return employee;
-        }
 
+
+        [HttpDelete("[action]")]
+        public async Task DeleteEmployeeAsync(int employeeId)
+            => await EmployeeRepository.DeleteEmployeesAsync(employeeId);
 
     }
 }
