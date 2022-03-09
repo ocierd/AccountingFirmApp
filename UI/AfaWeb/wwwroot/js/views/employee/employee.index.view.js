@@ -34,9 +34,9 @@ class employeeIndexView {
             { elementId: 'inputCreateEmployeePhoneNumber', property: 'phoneNumber' },
             { elementId: 'inputCreateEmployeeDischarge', property: 'dischargeDate', type: 'date' },
             { elementId: 'inputCreateEmployeeLeavingDate', property: 'leavingDate', type: 'date' },
-            { elementId: 'genderModalDropDownContainer', property: 'leavingDate', type: 'ddl' },
-            { elementId: 'civilStatusModalDropDownContainer', property: 'leavingDate', type: 'ddl' },
-            { elementId: 'PositionModalDropDownContainer', property: 'leavingDate', type: 'ddl' }
+            { elementId: 'genderModalDropDownContainer', property: 'genderId', type: 'ddl' },
+            { elementId: 'civilStatusModalDropDownContainer', property: 'civilStatusId', type: 'ddl' },
+            { elementId: 'PositionModalDropDownContainer', property: 'positionId', type: 'ddl' }
         ];
 
         this.searchModalElements = {
@@ -98,6 +98,11 @@ class employeeIndexView {
 
     tryCreateEmployee() {
         try {
+            if (!this.verifyEmloyeeData()) {
+                alert('Formulario incorrecto; por favor, reviselo');
+                console.log(this.employeeToCreate);
+                return;
+            }
             //await this.employeeApi.createEmployeesAsync(this.employeeToCreate);
             this.employeesKendoGrid.dataSource.add(this.employeeToCreate);
             this.employeesKendoGrid.saveChanges();
@@ -105,26 +110,16 @@ class employeeIndexView {
             console.error(error);
         }
     }
+
+    verifyEmloyeeData() {
+        return this.createEmployeeModalControls.every(p => {
+            return p.property === 'leavingDate' || this.employeeToCreate[p.property];
+        });
+    }
+
     addEmployee() {
         this.employeeToCreate = {};
         this.createEmployeeModal.show();
-        var newEmployee = {
-            "employeeId": 0,
-            "firstName": "Mixtle",
-            "middleName": "Ricardo",
-            "lastName": "Mercado",
-            "age": 12,
-            "birthDate": "2009-11-05T00:00:00",
-            "rfc": "RIMM091105",
-            "address": "Azaleas, 6",
-            "email": "mixgamer@msn.com",
-            "phoneNumber": "5527262524",
-            "dischargeDate": "2022-03-01T00:00:00",
-            "leavingDate": null,
-            "genderId": 1,
-            "civilStatusId": 1,
-            "positionId": 2
-        };
         this.dispatchEvents();
         console.log(this.employeeToCreate);
     }
@@ -177,7 +172,6 @@ class employeeIndexView {
             change: evt => {
                 var selectedItem = evt.sender.dataItem() ?? {};
                 this.employeeToCreate[valueField] = selectedItem[valueField];
-                console.log(this.employeeToCreate);
             }
         });
         this.setKendoDropDownListDefaultValue(selector, data, valueField);
@@ -190,11 +184,6 @@ class employeeIndexView {
     }
 
     getDefaultTransport() {
-        var createAsync = async (op) => {
-            var employee = op.data.models[0];
-            var created = await this.employeeApi.createEmployeesAsync(employee);
-            op.success(created);
-        };
         return {
             read: async (op) => {
                 var data = await this.employeeApi.getEmployeesAsync();
@@ -214,7 +203,12 @@ class employeeIndexView {
                 await this.employeeApi.deleteEmployeeAsync(employeeId);
                 op.success();
             },
-            create: createAsync,
+            create: async (op) => {
+                var employee = op.data.models[0];
+                var created = await this.employeeApi.createEmployeesAsync(employee);
+                op.success(created);
+                alert('The employee data has been updated');
+            },
         };
     }
 

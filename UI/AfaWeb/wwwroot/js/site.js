@@ -66,6 +66,10 @@ var xhr = (function () {
 
     async function sendAsync(url, options = {}) {
         var response = await fetch(url, options);
+        if (response.status >= 500) {
+            var errorText = await response.text();
+            throw new Error(errorText);
+        }
         return response;
     }
 
